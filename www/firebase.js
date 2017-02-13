@@ -113,5 +113,5 @@ exports.setDefaults = function (defaults, namespace, success, error) {
 };
 
 exports.report = function(message, success, error) {
-    exec(success, error, PLUGIN_NAME, "report", [message]);
+    exec(success, error, "FirebasePlugin", "report", [message]);
 }
