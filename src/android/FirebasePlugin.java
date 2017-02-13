@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -128,6 +129,9 @@ public class FirebasePlugin extends CordovaPlugin {
         } else if (action.equals("setDefaults")) {
             if (args.length() > 1) this.setDefaults(callbackContext, args.getJSONObject(0), args.getString(1));
             else this.setDefaults(callbackContext, args.getJSONObject(0), null);
+            return true;
+        } else if (action.equals("report")) {
+            this.report(callbackContext, args.getString(0));
             return true;
         }
         return false;
@@ -536,5 +540,11 @@ public class FirebasePlugin extends CordovaPlugin {
             map.put(key, value);
         }
         return map;
+    }
+    
+    private void report(final CallbackContext callbackContext, final String message) throws JSONException {
+        FirebaseCrash.log(message);
+
+        callbackContext.success();
     }
 }
